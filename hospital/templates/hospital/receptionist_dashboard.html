@@ -1,0 +1,114 @@
+<!-- templates/hospital/receptionist_dashboard.html -->
+{% extends 'hospital/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12">
+        <h2><i class="bi bi-clipboard-data"></i> Reception Dashboard</h2>
+        <hr>
+    </div>
+</div>
+
+<!-- Pending Appointments Section -->
+<div class="row mt-4">
+    <div class="col-md-12">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-clock-history"></i> Pending Appointments
+            </div>
+            <div class="card-body">
+                {% if pending_appointments %}
+                    <div class="table-responsive">
+                        <table class="table table-hover">
+                            <thead>
+                                <tr>
+                                    <th>Patient</th>
+                                    <th>Date</th>
+                                    <th>Time</th>
+                                    <th>Problem</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                {% for appointment in pending_appointments %}
+                                    <tr>
+                                        <td>{{ appointment.patient.user.get_full_name }} (ID: {{ appointment.patient.user_id }})</td>
+                                        <td>{{ appointment.date }}</td>
+                                        <td>{{ appointment.get_time_slot_display }}</td>
+                                        <td>{{ appointment.problem|truncatechars:30 }}</td>
+                                        <td>
+                                            <a href="{% url 'assign_doctor' appointment.id %}" class="btn btn-sm btn-primary">
+                                                <i class="bi bi-person-plus"></i> Assign Doctor
+                                            </a>
+                                        </td>
+                                    </tr>
+                                {% endfor %}
+                            </tbody>
+                        </table>
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">No pending appointments</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+
+<!-- Existing sections... -->
+<div class="row mt-4">
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-people"></i> New Patients
+            </div>
+            <div class="card-body">
+                {% if new_patients %}
+                    <div class="list-group">
+                        {% for patient in new_patients %}
+                            <a href="#" class="list-group-item list-group-item-action">
+                                {{ patient.user.get_full_name }} (ID: {{ patient.user_id }})
+                                <small class="text-muted">{{ patient.created_at|timesince }} ago</small>
+                            </a>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">No new patients</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+    
+    <div class="col-md-6">
+        <div class="card">
+            <div class="card-header">
+                <i class="bi bi-clipboard2-pulse"></i> Pending Test Approvals
+            </div>
+            <div class="card-body">
+                {% if pending_tests %}
+                    <div class="list-group">
+                        {% for test in pending_tests %}
+                            <div class="list-group-item">
+                                <div class="d-flex w-100 justify-content-between">
+                                    <h6 class="mb-1">{{ test.test_type.name }}</h6>
+                                    <small class="text-muted">{{ test.requested_at|timesince }} ago</small>
+                                </div>
+                                <p class="mb-1">For: {{ test.appointment.patient.user.get_full_name }}</p>
+                                <small>Requested by: Dr. {{ test.requested_by.get_full_name }}</small>
+                                <form method="post" action="{% url 'manage_test_request' test.id %}" class="d-inline">
+                                    {% csrf_token %}
+                                    <input type="hidden" name="action" value="approve">
+                                    <button type="submit" class="btn btn-sm btn-success btn-action mt-2" title="Approve Test">
+                                        <i class="bi bi-check-circle"></i> Approve
+                                    </button>
+                                </form>
+                            </div>
+                        {% endfor %}
+                    </div>
+                {% else %}
+                    <div class="alert alert-info">No pending test requests</div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

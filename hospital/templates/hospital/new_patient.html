@@ -1,0 +1,126 @@
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #container {
+            background-color: #fff;
+            padding: 40px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        input[type="text"], input[type="date"], select, textarea {
+            padding: 7px;
+            width: 100%;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        h1, h3 {
+            margin: 0 0 20px;
+        }
+        #create {
+            font-family: serif;
+            margin-bottom: 15px;
+        }
+        #create1 {
+            font-size: 12px;
+        }
+        #submit-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #submit-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <div id="container">
+            <h1 id="main">Patient Information</h1>
+            <h3 id="create">Patient Details:</h3>
+            
+            <input type="text" id="fname" name="fname" placeholder="Enter your First Name" required>
+            <input type="text" id="lname" name="lname" placeholder="Enter your Last Name" required>
+            <input type="date" id="dob" name="dob" required onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Date of Birth">
+            <input type="text" id="phoneNumber" name="phoneNumber" maxlength="10" placeholder="Phone Number" required>
+            <input type="date" id="admitDate" name="admitDate" required onfocus="(this.type='date')" onblur="(this.type='text')" placeholder="Date of Admit">         
+            <select id="sex" name="sex" required>
+                <option value="" disabled selected>Select Gender</option>
+                <option value="male">Male</option>
+                <option value="female">Female</option>
+            </select>
+            <select id="doctor" name="doctor" required>
+                <option value="" disabled selected>Select Doctor Specialty</option>
+                <option value="neurology">Neurology</option>
+                <option value="psychology">Psychology</option>
+            </select>
+            <select id="doctor" name="doctor" required>
+                <option value="" disabled selected>Select Your Slot</option>
+                <option value="11AM">11AM</option>
+                <option value="12AM">12AM</option>
+                <option value="1PM">1PM</option>
+                <option value="2PM">2PM</option>
+            </select>
+            <textarea id="problem" name="problem" maxlength="100" placeholder="Enter your problem" required></textarea>
+            <p id="create1">By submitting, you agree to our <a href="#">Terms</a>, Privacy Policy, and Cookies Policy.</p>
+            <button type="submit" id="submit-btn">Submit and Pay</button>
+        </div>
+    </form>
+
+    <script>
+        const dobInput = document.getElementById('dob');
+        dobInput.addEventListener('focus', function() {
+            this.setAttribute('type', 'date');
+        });
+        dobInput.addEventListener('blur', function() {
+            if (!this.value) {
+                this.setAttribute('type', 'text');
+                this.setAttribute('placeholder', 'Date of Birth');
+            }
+        });
+
+        dobInput.setAttribute('type', 'text');
+        dobInput.setAttribute('placeholder', 'Date of Birth');
+
+        const admitDateInput = document.getElementById('admitDate');
+        admitDateInput.addEventListener('focus', function() {
+            this.setAttribute('type', 'date');
+        });
+        admitDateInput.addEventListener('blur', function() {
+            if (!this.value) {
+                this.setAttribute('type', 'text');
+                this.setAttribute('placeholder', 'Date of Admit');
+            }
+        });
+
+        admitDateInput.setAttribute('type', 'text');
+        admitDateInput.setAttribute('placeholder', 'Date of Admit');
+    </script>
+</body>
+</html>

@@ -1,0 +1,117 @@
+{% extends 'hospital/base.html' %}
+
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow-lg">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">
+                <i class="bi bi-clipboard2-pulse"></i> Analyze Test Results
+            </h2>
+        </div>
+        <div class="card-body">
+            <div class="row mb-4">
+                <div class="col-md-6">
+                    <h4>Patient: {{ appointment.patient.user.get_full_name }}</h4>
+                    <p class="mb-1"><strong>Appointment Date:</strong> {{ appointment.date }}</p>
+                    <p class="mb-1"><strong>Problem:</strong> {{ appointment.problem }}</p>
+                </div>
+                <div class="col-md-6 text-md-end">
+                    <a href="{% url 'doctor_dashboard' %}" class="btn btn-secondary">
+                        <i class="bi bi-arrow-left"></i> Back to Dashboard
+                    </a>
+                </div>
+            </div>
+            
+            <hr>
+            
+            <h4 class="mt-4">Test Reports</h4>
+            {% if test_results %}
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Test Type</th>
+                                <th>Result Summary</th>
+                                <th>Completed At</th>
+                                <th>Report</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in test_results %}
+                                <tr>
+                                    <td>{{ result.test_request.test_type.name }}</td>
+                                    <td>{{ result.result|truncatechars:50 }}</td>
+                                    <td>{{ result.completed_at|date:"Y-m-d H:i" }}</td>
+                                    <td>
+                                        {% if result.file %}
+                                            <a href="{{ result.file.url }}" class="btn btn-sm btn-primary" target="_blank">
+                                                <i class="bi bi-download"></i> Download Report
+                                            </a>
+                                        {% else %}
+                                            <span class="text-muted">No file attached</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                <div class="alert alert-success">Testing was completed.</div>
+            {% else %}
+                <div class="alert alert-info">No test reports available for this appointment.</div>
+            {% endif %}
+            
+            {% if abnormal_results %}
+                <h4 class="mt-4">Abnormal Test Results</h4>
+                <div class="table-responsive">
+                    <table class="table table-hover">
+                        <thead>
+                            <tr>
+                                <th>Test</th>
+                                <th>Status</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in abnormal_results %}
+                                <tr>
+                                    <td>{{ result.Test }}</td>
+                                    <td>{{ result.Status }}</td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% if excel_file_url %}
+                    <a href="{{ excel_file_url }}" class="btn btn-sm btn-primary" target="_blank">
+                        <i class="bi bi-download"></i> Download Abnormal Results Excel
+                    </a>
+                {% endif %}
+            {% elif test_results %}
+                <div class="alert alert-success mt-4">All test values are within normal range.</div>
+            {% endif %}
+            
+            <hr>
+            
+            <h4 class="mt-4">Analysis</h4>
+            <form method="post">
+                {% csrf_token %}
+                <div class="mb-3">
+                    <label for="analysisNotes" class="form-label">Your Analysis:</label>
+                    <textarea class="form-control" id="analysisNotes" name="analysis_notes" rows="5" placeholder="Enter your analysis of the test results..."></textarea>
+                </div>
+                <div class="mb-3">
+                    <label for="diagnosis" class="form-label">Diagnosis:</label>
+                    <input type="text" class="form-control" id="diagnosis" name="diagnosis" placeholder="Enter diagnosis">
+                </div>
+                <div class="mb-3">
+                    <label for="recommendations" class="form-label">Recommendations:</label>
+                    <textarea class="form-control" id="recommendations" name="recommendations" rows="3" placeholder="Enter recommendations..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">
+                    <i class="bi bi-save"></i> Save Analysis
+                </button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,92 @@
+{% extends 'hospital/base.html' %}
+
+{% block content %}
+<div class="container mt-4">
+    <h2 class="mb-4"><i class="bi bi-clock-history"></i> Your Medical History</h2>
+    
+    {% if appointment_data %}
+        <div class="accordion" id="historyAccordion">
+            {% for item in appointment_data %}
+                {% with appointment=item.appointment %}
+                    <div class="accordion-item">
+                        <h2 class="accordion-header" id="heading{{ appointment.id }}">
+                            <button class="accordion-button {% if not forloop.first %}collapsed{% endif %}" type="button" data-bs-toggle="collapse" data-bs-target="#collapse{{ appointment.id }}" aria-expanded="{% if forloop.first %}true{% else %}false{% endif %}" aria-controls="collapse{{ appointment.id }}">
+                                Appointment on {{ appointment.date }} at {{ appointment.get_time_slot_display }} with Dr. {{ appointment.doctor.get_full_name }}
+                            </button>
+                        </h2>
+                        <div id="collapse{{ appointment.id }}" class="accordion-collapse collapse {% if forloop.first %}show{% endif %}" aria-labelledby="heading{{ appointment.id }}" data-bs-parent="#historyAccordion">
+                            <div class="accordion-body">
+                                <h5>Appointment Details</h5>
+                                <p><strong>Date:</strong> {{ appointment.date }}</p>
+                                <p><strong>Time:</strong> {{ appointment.get_time_slot_display }}</p>
+                                <p><strong>Doctor:</strong> Dr. {{ appointment.doctor.get_full_name }}</p>
+                                <p><strong>Reason:</strong> {{ appointment.problem }}</p>
+                                
+                                <h5 class="mt-4">Test Results</h5>
+                                {% if item.test_results %}
+                                    <div class="table-responsive">
+                                        <table class="table table-hover">
+                                            <thead>
+                                                <tr>
+                                                    <th>Test Type</th>
+                                                    <th>Completed On</th>
+                                                    <th>Report</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                {% for result in item.test_results %}
+                                                    <tr>
+                                                        <td>{{ result.test_request.test_type.name }}</td>
+                                                        <td>{{ result.completed_at|date:"Y-m-d H:i" }}</td>
+                                                        <td>
+                                                            {% if result.file %}
+                                                                <a href="{{ result.file.url }}" class="btn btn-sm btn-primary" target="_blank">View Report</a>
+                                                            {% else %}
+                                                                No report uploaded
+                                                            {% endif %}
+                                                        </td>
+                                                    </tr>
+                                                {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                {% else %}
+                                    <p>No test results for this appointment.</p>
+                                {% endif %}
+                                
+                                <h5 class="mt-4">Prescriptions</h5>
+                                {% if item.prescriptions %}
+                                    {% for prescription in item.prescriptions %}
+                                        <div class="card mb-3">
+                                            <div class="card-body">
+                                                <p><strong>Prescribed On:</strong> {{ prescription.prescribed_at|date:"Y-m-d H:i" }}</p>
+                                                <p><strong>Notes:</strong> {{ prescription.notes|default:"No notes" }}</p>
+                                                <h6>Medicines</h6>
+                                                {% for medicine in prescription.medicine_set.all %}
+                                                    <p class="mb-1">
+                                                        <strong>{{ medicine.name }}</strong>: {{ medicine.dosage }} ({{ medicine.duration }})
+                                                    </p>
+                                                {% endfor %}
+                                            </div>
+                                        </div>
+                                    {% endfor %}  <!-- Fixed this line -->
+                                {% else %}
+                                    <p>No prescriptions for this appointment.</p>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                {% endwith %}
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="alert alert-info">
+            No medical history available.
+        </div>
+    {% endif %}
+    
+    <a href="{% url 'patient_dashboard' %}" class="btn btn-primary mt-4">
+        <i class="bi bi-arrow-left"></i> Back to Dashboard
+    </a>
+</div>
+{% endblock %}

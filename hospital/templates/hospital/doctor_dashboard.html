@@ -1,0 +1,103 @@
+{% extends 'hospital/base.html' %}
+{% block content %}
+<div class="container my-5">
+    <div class="card shadow-sm">
+        <div class="card-header bg-primary text-white">
+            <h2 class="mb-0">Doctor Dashboard</h2>
+        </div>
+        <div class="card-body">
+            <h4 class="card-title">Welcome, Dr. {{ doctor.get_full_name }}</h4>
+            
+            <h5 class="mt-4">Today's Appointments</h5>
+            {% if appointments %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Patient</th>
+                                <th>Date</th>
+                                <th>Time</th>
+                                <th>Reason</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for appointment in appointments %}
+                                <tr>
+                                    <td>{{ appointment.patient.user.get_full_name }}</td>
+                                    <td>{{ appointment.date|date:"Y-m-d" }}</td>
+                                    <td>{{ appointment.time_slot }}</td>
+                                    <td>{{ appointment.problem }}</td>
+                                    <td>
+                                        {% if not appointment.prescription_set.exists %}
+                                            <a href="{% url 'create_prescription' appointment.id %}" 
+                                               class="btn btn-sm btn-primary me-2" 
+                                               title="Create Prescription">
+                                                <span style="font-size: 1.2em;">✍</span> Prescription
+                                            </a>
+                                        {% endif %}
+                                        {% if not appointment.testrequest_set.exists %}
+                                            <a href="{% url 'request_test' appointment.id %}" 
+                                               class="btn btn-sm btn-info me-2" 
+                                               title="Request Test">
+                                                <span style="font-size: 1.2em;">🧪</span> Test
+                                            </a>
+                                        {% endif %}
+                                        <a href="{% url 'doctor_patient_detail' appointment.patient.user.id %}" 
+                                           class="btn btn-sm btn-secondary me-2">
+                                            View Patient
+                                        </a>
+                                        <a href="{% url 'analyze_test_results' appointment.id %}" 
+                                           class="btn btn-sm btn-success me-2" 
+                                           title="Analyze Test Results">
+                                            <span style="font-size: 1.2em;">🔍</span> Analyze
+                                        </a>
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info">No appointments scheduled for today.</div>
+            {% endif %}
+            
+            <h5 class="mt-4">Recent Test Results</h5>
+            {% if test_results %}
+                <div class="table-responsive">
+                    <table class="table table-hover table-bordered">
+                        <thead class="table-light">
+                            <tr>
+                                <th>Patient</th>
+                                <th>Test Type</th>
+                                <th>Result</th>
+                                <th>Completed</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for result in test_results %}
+                                <tr>
+                                    <td>{{ result.test_request.appointment.patient.user.get_full_name }}</td>
+                                    <td>{{ result.test_request.test_type.name }}</td>
+                                    <td>{{ result.result|truncatechars:30 }}</td>
+                                    <td>{{ result.completed_at|date:"Y-m-d H:i" }}</td>
+                                    <td>
+                                        {% if result.file %}
+                                            <a href="{{ result.file.url }}" class="btn btn-sm btn-success" target="_blank">View Report</a>
+                                        {% else %}
+                                            <span class="text-muted">No report available</span>
+                                        {% endif %}
+                                    </td>
+                                </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+            {% else %}
+                <div class="alert alert-info">No recent test results available.</div>
+            {% endif %}
+        </div>
+    </div>
+</div>
+{% endblock %}

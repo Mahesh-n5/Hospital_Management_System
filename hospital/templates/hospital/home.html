@@ -1,0 +1,16 @@
+{% extends 'hospital/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-12 text-center">
+        <h1>Welcome to Hospital Management System</h1>
+        <hr>
+        <div class="d-grid gap-3 d-md-block mt-4">
+            <a href="{% url 'patient_home' %}" class="btn btn-primary btn-lg mx-2">Patient Portal</a>
+            <a href="{% url 'doctor_home' %}" class="btn btn-success btn-lg mx-2">Doctor Portal</a>
+            <a href="{% url 'reception_home' %}" class="btn btn-info btn-lg mx-2">Reception Portal</a>
+            <a href="{% url 'tester_home' %}" class="btn btn-warning btn-lg mx-2">Tester Portal</a>
+        </div>
+    </div>
+</div>
+{% endblock %}

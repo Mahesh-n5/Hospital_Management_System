@@ -1,0 +1,21 @@
+Investigation,Status,Adult Threshold,Key Consequences
+Hemoglobin,Low,"<13.5 g/dL (men), <12 g/dL (women)",risk of heart failure
+Hemoglobin,High,">17.5 g/dL (men), >15.5 g/dL (women)","hyperviscosity, headache, thrombosis risk"
+RBC count,Low,"<4.5 ×10^12/L (men), <4 ×10^12/L (women)","Mirrors anemia symptoms; may indicate marrow failure, bleeding"
+RBC count,High,">6 ×10^12/L (men), >5.2 ×10^12/L (women)","Polycythemia → hyperviscosity, clotting risk"
+WBC count,Low,<3.6 ×10^9/L,Leukopenia/neutropenia → high infection risk
+WBC count,High,>10.6 ×10^9/L,"Leukocytosis → infection, inflammation, or leukemia work‑up"
+Platelet count,Low,<150 ×10^9/L,"Thrombocytopenia → bruising, mucosal bleeding; <20 ×10^9/L spontaneous bleeding"
+Platelet count,High,>450 ×10^9/L,"Thrombocytosis → thrombotic events (stroke, DVT), or reactive inflammation"
+Hematocrit,Low,"<40 % (men), <35 % (women)",Anemia manifestations as above
+Hematocrit,High,">54 % (men), >49 % (women)","Polycythemia complications – thrombosis, hyperviscosity"
+MCV,Low,<80 fL,"Microcytic anemia (iron deficiency, thalassemia)"
+MCV,High,>100 fL,"Macrocytic anemia (B12/Folate deficiency, liver disease)"
+MCH,Low,<26 pg,Hypochromic microcytic anemia
+MCH,High,>34 pg,Macrocytosis or hyperchromic cells (spherocytosis)
+MCHC,Low,<32 g/dL,Hypochromia (iron deficiency)
+MCHC,High,>36 g/dL,Spherocytosis; cold agglutinins
+Neutrophils (absolute),Low,<1.7 ×10^9/L,Neutropenia → severe bacterial/fungal infection risk
+Neutrophils (absolute),High,>7.5 ×10^9/L,"Neutrophilia → acute infection, stress, steroids"
+Lymphocytes (absolute),Low,<1 ×10^9/L,"Lymphopenia → viral infection susceptibility, immunodeficiency"
+Lymphocytes (absolute),High,>3.2 ×10^9/L,"Lymphocytosis → viral infections (EBV), CLL work‑up"

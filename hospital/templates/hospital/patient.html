@@ -1,0 +1,29 @@
+<html>
+    <head>
+        <style>
+            .main{
+                text-align: center;
+            }
+            #fname{
+                padding: 7px;
+                width: 180px;
+            }
+            .button1{
+                padding: 7px;
+                width: 90px;
+                height: 7px;
+                background-color: black;
+            }
+
+        </style>
+    </head>
+    <body>
+        <h1 class="main">Patient Information</h1><br><hr>
+        <h3>Consult a doctor</h3><br>
+        <a href="{% url 'new_patient' %}"><button>New Patient</button></a>
+        <a href="{% url 'existing_patient' %}"><button>Existing Patient</button></a><br><br>
+        <h7>Search By ID...</h7><br><br>
+        <input type="number" id="fname" name="fname" placeholder="Enter your ID" required="">
+        <button id="button1">GO</button>
+    </body>
+</html>

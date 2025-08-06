@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Login</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #container {
+            background-color: #fff;
+            padding: 60px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 300px;
+            text-align: center;
+        }
+        #italic1 {
+            font-weight: lighter;
+        }
+        #mahesh {
+            background-color: #007bff;
+            color: #ffffff;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            font-size: 16px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        #mahesh:hover {
+            background-color: #0056b3;
+        }
+        .horizontalLine {
+            width: 48%;
+            height: 2px;
+            background-color: #333;
+        }
+        .line {
+            flex-grow: 1;
+            height: 1px;
+            background-color: black;
+            margin: 0 10px;
+        }
+        .text {
+            margin: 0 10px;
+            white-space: nowrap;
+        }
+        .container {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <form method="post" action="{% url 'login' %}">
+        {% csrf_token %}
+        <div id="container">
+            <h1><i id="italic1">Hello</i><br>Welcome Doctor!</h1>
+            
+            <label for="username">User Name:</label>
+            <input type="text" id="username" name="username" required>
+            <br><br>
+            
+            <label for="password">Password:</label>
+            <input type="password" id="password" name="password" maxlength="8" required>
+            <br><br>
+            
+            <button type="submit" id="mahesh">Sign in</button>
+        </div>
+    </form>
+</body>
+</html>

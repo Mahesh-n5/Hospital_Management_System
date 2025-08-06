@@ -1,0 +1,36 @@
+{% extends 'hospital/base.html' %}
+
+{% block content %}
+<div class="row">
+    <div class="col-md-8 offset-md-2">
+        <div class="card">
+            <div class="card-header bg-info text-white">
+                <h4>Assign Doctor to Appointment</h4>
+            </div>
+            <div class="card-body">
+                <p><strong>Patient:</strong> {{ appointment.patient.user.get_full_name }} (ID: {{ appointment.patient.user_id }})</p>
+                <p><strong>Date:</strong> {{ appointment.date }}</p>
+                <p><strong>Time:</strong> {{ appointment.get_time_slot_display }}</p>
+                <p><strong>Problem:</strong> {{ appointment.problem }}</p>
+                
+                <hr>
+                
+                <form method="post">
+                    {% csrf_token %}
+                    <div class="mb-3">
+                        <label for="doctor" class="form-label">Select Doctor:</label>
+                        <select name="doctor" id="doctor" class="form-select" required>
+                            <option value="">-- Select Doctor --</option>
+                            {% for doctor in doctors %}
+                                <option value="{{ doctor.id }}">Dr. {{ doctor.get_full_name }} ({{ doctor.specialty }})</option>
+                            {% endfor %}
+                        </select>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Assign Doctor</button>
+                    <a href="{% url 'receptionist_dashboard' %}" class="btn btn-secondary">Cancel</a>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}

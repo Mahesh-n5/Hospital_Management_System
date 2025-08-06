@@ -1,0 +1,103 @@
+<html>
+<head>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            background-color: #f0f0f0;
+        }
+        #container {
+            background-color: #fff;
+            padding: 40px;
+            border: 2px solid #ccc;
+            border-radius: 10px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+            width: 400px;
+            text-align: center;
+        }
+        input[type="text"], input[type="date"], select, textarea {
+            padding: 7px;
+            width: 100%;
+            margin-bottom: 15px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            box-sizing: border-box;
+        }
+        textarea {
+            height: 80px;
+            resize: vertical;
+        }
+        h1, h3 {
+            margin: 0 0 20px;
+        }
+        #create {
+            font-family: serif;
+            margin-bottom: 15px;
+        }
+        #create1 {
+            font-size: 12px;
+        }
+        #submit-btn {
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            background-color: #4CAF50;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+            width: 100%;
+            box-sizing: border-box;
+        }
+        #submit-btn:hover {
+            background-color: #45a049;
+        }
+    </style>
+</head>
+
+<body>
+    <form>
+        <div id="container">
+            <h1 id="main">Patient Information</h1>            
+            <input type="text" id="phoneNumber" name="phoneNumber" maxlength="10" placeholder="Enter your ID" required>
+            
+            <input type="text" id="admitDate" name="admitDate" required placeholder="Date of Admit" onclick="showDatePicker()">
+            
+            <select id="doctorSpecialty" name="doctorSpecialty" required>
+                <option value="" disabled selected>Select Doctor Specialty</option>
+                <option value="neurology">Neurology</option>
+                <option value="psychology">Psychology</option>
+            </select>
+            <select id="slot" name="slot" required>
+                <option value="" disabled selected>Select Your Slot</option>
+                <option value="11AM">11AM</option>
+                <option value="12PM">12PM</option>
+                <option value="1PM">1PM</option>
+                <option value="2PM">2PM</option>
+            </select>
+            <textarea id="problem" name="problem" maxlength="100" placeholder="Enter your problem" required></textarea>
+            <p id="create1">By submitting, you agree to our <a href="#">Terms</a>, Privacy Policy, and Cookies Policy.</p>
+            <button type="submit" id="submit-btn">Submit and Pay</button>
+        </div>
+    </form>
+
+    <script>
+        function showDatePicker() {
+            var admitDateInput = document.getElementById('admitDate');
+            admitDateInput.setAttribute('type', 'date');
+            admitDateInput.removeAttribute('placeholder');
+            admitDateInput.focus();
+            admitDateInput.onblur = function() {
+                if (!admitDateInput.value) { 
+                    admitDateInput.setAttribute('type', 'text');
+                    admitDateInput.setAttribute('placeholder', 'Date of Admit');
+                }
+            };
+        }
+    </script>
+</body>
+</html>
